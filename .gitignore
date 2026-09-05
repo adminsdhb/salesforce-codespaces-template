@@ -1,0 +1,17 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+.sf/
+.sfdx/
+.vscode/
+node_modules/
+coverage/
+dist/
+*.log
+*.key
+*.crt
+*.pem
+*.json.backup
+auth-url.txt
+*.sfdx

@@ -1,0 +1,22 @@
+name: Validate template
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate project files
+        run: bash scripts/validate.sh
+
+      - name: Validate shell syntax
+        run: bash -n .devcontainer/post-create.sh scripts/setup.sh scripts/validate.sh
