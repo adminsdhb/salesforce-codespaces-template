@@ -19,6 +19,64 @@ The template provides a non-root development container, Salesforce CLI, useful V
 
 For a local checkout, run **Reopen in Container** from VS Code after installing the Dev Containers extension.
 
+## Architecture diagrams
+
+### Runtime architecture
+
+```mermaid
+flowchart LR
+    Dev[Developer] -->|Open Codespace| Repo[(Repository)]
+    Repo --> DC[.devcontainer/devcontainer.json]
+    DC --> Docker[.devcontainer/Dockerfile]
+    Docker --> Env[Codespaces Dev Container]
+    Env --> PostCreate[.devcontainer/post-create.sh]
+    PostCreate --> SF[Salesforce CLI]
+    SF --> Org[(Salesforce Org)]
+    Env --> Setup[scripts/setup.sh]
+```
+
+### Validation architecture
+
+```mermaid
+flowchart LR
+    Trigger[Push / Pull Request / Manual Dispatch] --> WF[.github/workflows/validate.yml]
+    WF --> Validate[scripts/validate.sh]
+    Validate --> Required[Required files exist]
+    Validate --> Json[JSON files parse with jq]
+    Validate --> Package[force-app directory exists]
+    WF --> ShellCheck[bash -n shell syntax check]
+```
+
+### Repository module map
+
+```mermaid
+graph TD
+    Root[Repository Root]
+    Root --> A[.devcontainer]
+    Root --> B[.github/workflows]
+    Root --> C[config]
+    Root --> D[force-app]
+    Root --> E[scripts]
+    Root --> F[docs]
+    Root --> G[sfdx-project.json]
+
+    G --> D
+    B --> E
+    A --> E
+```
+
+## Folder documentation
+
+- [.devcontainer/README.md](.devcontainer/README.md)
+- [.github/README.md](.github/README.md)
+- [.github/workflows/README.md](.github/workflows/README.md)
+- [config/README.md](config/README.md)
+- [docs/README.md](docs/README.md)
+- [force-app/README.md](force-app/README.md)
+- [force-app/main/README.md](force-app/main/README.md)
+- [force-app/main/default/README.md](force-app/main/default/README.md)
+- [scripts/README.md](scripts/README.md)
+
 ## Authenticate safely
 
 Use an interactive web login inside the Codespace:
@@ -56,12 +114,12 @@ The `scripts/setup.sh` file prints a short onboarding sequence, and `scripts/val
 ```text
 .
 ├── .devcontainer/       # Codespaces image and post-create setup
-├── .github/workflows/    # Configuration validation
+├── .github/workflows/   # Configuration validation
 ├── config/              # Scratch-org definitions and project config
-├── force-app/            # Salesforce source metadata
-├── scripts/              # Setup and validation helpers
-├── docs/                 # Template design notes
-└── sfdx-project.json     # Salesforce DX project manifest
+├── force-app/           # Salesforce source metadata
+├── scripts/             # Setup and validation helpers
+├── docs/                # Template design notes
+└── sfdx-project.json    # Salesforce DX project manifest
 ```
 
 ## Environment variables and secrets
