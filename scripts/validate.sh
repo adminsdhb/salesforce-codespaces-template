@@ -45,8 +45,9 @@ else
   echo "Salesforce CLI not found; configuration-only validation completed."
 fi
 
-if command -v openspec >/dev/null 2>&1; then
-  openspec validate --all --strict --no-interactive
-else
-  echo "OpenSpec not found; OpenSpec validation skipped."
+if ! command -v openspec >/dev/null 2>&1; then
+  echo "OpenSpec is required for validation. Rebuild or reopen this repository in its Codespace." >&2
+  exit 1
 fi
+
+openspec validate --all --strict --no-interactive
