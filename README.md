@@ -1,6 +1,6 @@
 # Salesforce Codespaces Template
 
-Reusable GitHub Codespaces starter for Salesforce CLI and Salesforce DX development.
+Reusable GitHub Codespaces template for Salesforce DX projects with Salesforce CLI, secure defaults, and built-in validation.
 
 The template provides a non-root development container, Salesforce CLI, useful VS Code extensions, a baseline `force-app` project structure, setup helpers, and configuration-only CI validation. It intentionally does not authenticate to an org or include org-specific metadata.
 
