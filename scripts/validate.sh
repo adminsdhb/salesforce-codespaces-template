@@ -49,5 +49,10 @@ fi
 if command -v openspec >/dev/null 2>&1; then
   openspec validate --all --strict --no-interactive
 else
-  echo "OpenSpec not found; repository file checks passed but strict OpenSpec validation was skipped."
+  if [[ "${ALLOW_MISSING_OPENSPEC:-0}" == "1" ]]; then
+    echo "OpenSpec not found; repository file checks passed but strict OpenSpec validation was skipped."
+  else
+    echo "OpenSpec is required for the default validation path. Use the Codespace, install the version pinned in config/openspec-version.txt, or rerun with ALLOW_MISSING_OPENSPEC=1 for a reduced file-only check." >&2
+    exit 1
+  fi
 fi

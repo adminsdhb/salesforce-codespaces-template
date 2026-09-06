@@ -19,7 +19,11 @@ The repository SHALL provide OpenSpec as part of its standard development enviro
 - **AND** validation runs OpenSpec's strict project validation when the CLI is available
 
 #### Scenario: OpenSpec is unavailable outside the standard environment
-- **WHEN** `bash scripts/validate.sh` runs on a host without the `openspec` CLI
+- **WHEN** `bash scripts/validate.sh` runs on a host without the `openspec` CLI and reduced mode is not requested
+- **THEN** validation fails and instructs the contributor to use the Codespace or install the pinned OpenSpec version
+
+#### Scenario: Reduced validation mode is requested explicitly
+- **WHEN** `ALLOW_MISSING_OPENSPEC=1 bash scripts/validate.sh` runs on a host without the `openspec` CLI
 - **THEN** validation still checks the repository's required files and JSON configuration
 - **AND** it reports that strict OpenSpec validation was skipped
 

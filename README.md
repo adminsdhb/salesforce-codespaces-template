@@ -50,7 +50,7 @@ sf apex run test --target-org scratch --wait 10 --result-format human
 sf org open
 ```
 
-The `scripts/setup.sh` file prints a short onboarding sequence, and `scripts/validate.sh` checks that the template's required files, OpenSpec configuration, and JSON configuration remain valid. When `openspec` is installed, the same script also runs strict OpenSpec validation.
+The `scripts/setup.sh` file prints a short onboarding sequence, and `scripts/validate.sh` checks that the template's required files, OpenSpec configuration, and JSON configuration remain valid. By default it also requires `openspec` so strict OpenSpec validation runs; for an explicit reduced file-only check outside the Codespace, use `ALLOW_MISSING_OPENSPEC=1 bash scripts/validate.sh`.
 
 ## Spec-driven development
 
@@ -68,7 +68,7 @@ Repository expectations:
 - Keep `openspec/` artifacts in version control with the code they describe.
 - Start non-trivial repository changes with OpenSpec planning.
 - Update the relevant specs whenever template behavior changes.
-- Run `bash scripts/validate.sh` inside the Codespace or another environment where `openspec` is installed for full validation.
+- Run `bash scripts/validate.sh` inside the Codespace or another environment where `openspec` is installed for the authoritative validation pass.
 
 ## Project layout
 
