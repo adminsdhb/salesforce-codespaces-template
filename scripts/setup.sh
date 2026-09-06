@@ -7,21 +7,26 @@ if ! command -v sf >/dev/null 2>&1; then
   exit 1
 fi
 
-if ! command -v openspec >/dev/null 2>&1; then
-  echo "OpenSpec is not installed. Rebuild or reopen this repository in its Codespace."
-  exit 1
-fi
-
 echo "Salesforce CLI:"
 sf --version
 echo
-echo "OpenSpec:"
-openspec --version
-echo
+
+if command -v openspec >/dev/null 2>&1; then
+  echo "OpenSpec:"
+  openspec --version
+  echo
+else
+  echo "OpenSpec: not installed in this shell."
+  echo "Run inside the Codespace for the built-in OpenSpec workflow."
+  echo
+fi
+
 echo "Next steps:"
-echo "  /opsx-explore"
-echo "  /opsx-propose \"your change\""
-echo "  /opsx-apply"
+if command -v openspec >/dev/null 2>&1; then
+  echo "  /opsx-explore"
+  echo "  /opsx-propose \"your change\""
+  echo "  /opsx-apply"
+fi
 echo "  sf org login web --alias dev --set-default"
 echo "  sf org list"
 echo "  sf project deploy start --source-dir force-app --target-org dev"
