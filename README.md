@@ -93,7 +93,7 @@ Keep non-sensitive local defaults in an uncommitted `.env` file only when a tool
 
 - Start with `/opsx-explore` or `/opsx-propose` for any non-trivial template change.
 - Pin `SF_CLI_VERSION` in `.devcontainer/Dockerfile` when reproducible builds matter.
-- Keep the OpenSpec CLI version aligned between `.devcontainer/Dockerfile` and `.github/workflows/validate.yml`.
+- Keep `OPENSPEC_VERSION` pinned in `.devcontainer/Dockerfile`; CI reads the same value during validation.
 - Update `sourceApiVersion` in `sfdx-project.json` to match the Salesforce API version used by a project.
 - Keep the extension list small and project-agnostic.
 - Run `bash scripts/validate.sh` before opening a pull request.
