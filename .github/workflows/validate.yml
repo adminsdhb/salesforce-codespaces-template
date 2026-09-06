@@ -21,7 +21,7 @@ jobs:
           node-version: 22
 
       - name: Resolve OpenSpec version
-        run: echo "OPENSPEC_VERSION=$(grep '^ARG OPENSPEC_VERSION=' .devcontainer/Dockerfile | cut -d= -f2)" >> "$GITHUB_ENV"
+        run: echo "OPENSPEC_VERSION=$(tr -d '[:space:]' < config/openspec-version.txt)" >> "$GITHUB_ENV"
 
       - name: Install OpenSpec CLI
         run: npm install --global @fission-ai/openspec@${OPENSPEC_VERSION}

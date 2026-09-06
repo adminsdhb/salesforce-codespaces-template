@@ -16,7 +16,8 @@ The repository SHALL provide OpenSpec as part of its standard development enviro
 #### Scenario: Repository validation runs
 - **WHEN** `bash scripts/validate.sh` runs locally or in CI
 - **THEN** validation confirms the required OpenSpec files exist
-- **AND** validation runs OpenSpec's strict project validation when the CLI is available
+- **AND** validation runs OpenSpec's strict project validation
+- **AND** validation fails if the `openspec` CLI is unavailable
 
 ### Requirement: Non-trivial changes start from OpenSpec planning
 

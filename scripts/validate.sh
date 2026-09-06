@@ -19,6 +19,7 @@ required_files=(
   '.github/skills/openspec-sync-specs/SKILL.md'
   '.github/skills/openspec-update-change/SKILL.md'
   'config/project-scratch-def.json'
+  'config/openspec-version.txt'
   'openspec/config.yaml'
   'openspec/specs/repository-governance/spec.md'
   'sfdx-project.json'
@@ -45,8 +46,9 @@ else
   echo "Salesforce CLI not found; configuration-only validation completed."
 fi
 
-if command -v openspec >/dev/null 2>&1; then
-  openspec validate --all --strict --no-interactive
-else
-  echo "OpenSpec not found; repository file checks passed but OpenSpec validation was skipped."
+if ! command -v openspec >/dev/null 2>&1; then
+  echo "OpenSpec is required for validation. Install the version pinned in config/openspec-version.txt or run inside the Codespace." >&2
+  exit 1
 fi
+
+openspec validate --all --strict --no-interactive
