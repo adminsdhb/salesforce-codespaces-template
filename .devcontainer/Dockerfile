@@ -10,7 +10,9 @@ RUN apt-get update \
 
 COPY config/openspec-version.txt /tmp/openspec-version.txt
 
-RUN npm install --global "@salesforce/cli@${SF_CLI_VERSION}" "@fission-ai/openspec@$(tr -d '[:space:]' < /tmp/openspec-version.txt)" \
+RUN OPENSPEC_VERSION="$(tr -d '[:space:]' < /tmp/openspec-version.txt)" \
+    && test -n "${OPENSPEC_VERSION}" \
+    && npm install --global "@salesforce/cli@${SF_CLI_VERSION}" "@fission-ai/openspec@${OPENSPEC_VERSION}" \
     && npm cache clean --force
 
 USER node

@@ -21,7 +21,10 @@ jobs:
           node-version: 22
 
       - name: Resolve OpenSpec version
-        run: echo "OPENSPEC_VERSION=$(tr -d '[:space:]' < config/openspec-version.txt)" >> "$GITHUB_ENV"
+        run: |
+          openspec_version="$(tr -d '[:space:]' < config/openspec-version.txt)"
+          [[ -n "${openspec_version}" ]] || { echo "config/openspec-version.txt must not be empty." >&2; exit 1; }
+          echo "OPENSPEC_VERSION=${openspec_version}" >> "$GITHUB_ENV"
 
       - name: Install OpenSpec CLI
         run: npm install --global @fission-ai/openspec@${OPENSPEC_VERSION}

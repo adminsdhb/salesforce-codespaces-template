@@ -38,6 +38,9 @@ package_path="$(jq -r '.packageDirectories[0].path // empty' sfdx-project.json)"
 [[ -n "$package_path" ]] || { echo 'sfdx-project.json must define a package directory' >&2; exit 1; }
 [[ -d "$package_path" ]] || { echo "Package directory does not exist: $package_path" >&2; exit 1; }
 
+pinned_openspec_version="$(tr -d '[:space:]' < config/openspec-version.txt)"
+[[ -n "$pinned_openspec_version" ]] || { echo 'config/openspec-version.txt must not be empty' >&2; exit 1; }
+
 echo 'Template configuration is valid.'
 
 if command -v sf >/dev/null 2>&1; then
@@ -47,6 +50,11 @@ else
 fi
 
 if command -v openspec >/dev/null 2>&1; then
+  installed_openspec_version="$(openspec --version)"
+  [[ "$installed_openspec_version" == "$pinned_openspec_version" ]] || {
+    echo "OpenSpec version mismatch: expected $pinned_openspec_version but found $installed_openspec_version" >&2
+    exit 1
+  }
   openspec validate --all --strict --no-interactive
 else
   if [[ "${ALLOW_MISSING_OPENSPEC:-0}" == "1" ]]; then
