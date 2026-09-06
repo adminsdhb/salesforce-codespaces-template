@@ -50,7 +50,7 @@ else
 fi
 
 if command -v openspec >/dev/null 2>&1; then
-  installed_openspec_version="$(npm list --global @fission-ai/openspec --json | jq -r '.dependencies["@fission-ai/openspec"].version // empty')"
+  installed_openspec_version="$(npm list --global @fission-ai/openspec --json 2>/dev/null | jq -r '.dependencies["@fission-ai/openspec"].version // empty' || true)"
   if [[ -z "$installed_openspec_version" ]]; then
     installed_openspec_version="$(openspec --version | grep -Eo 'v?[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?' | head -n 1 | sed 's/^v//')"
   fi

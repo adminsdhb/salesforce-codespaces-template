@@ -3,6 +3,7 @@
   "build": {
     "dockerfile": "Dockerfile",
     "args": {
+      "NODE_VERSION": "22",
       "SF_CLI_VERSION": "latest"
     }
   },

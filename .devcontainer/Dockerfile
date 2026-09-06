@@ -1,5 +1,5 @@
-ARG NODE_IMAGE=mcr.microsoft.com/devcontainers/javascript-node:22-bookworm
-FROM ${NODE_IMAGE}
+ARG NODE_VERSION=22
+FROM mcr.microsoft.com/devcontainers/javascript-node:${NODE_VERSION}-bookworm
 
 ARG SF_CLI_VERSION=latest
 USER root

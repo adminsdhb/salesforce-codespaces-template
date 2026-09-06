@@ -15,16 +15,19 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Resolve tool versions
+        run: |
+          node_version="$(python -c "import json, pathlib; data = json.loads(pathlib.Path('.devcontainer/devcontainer.json').read_text()); print((data.get('build', {}).get('args', {}).get('NODE_VERSION') or '').strip())")"
+          openspec_version="$(tr -d '[:space:]' < config/openspec-version.txt)"
+          [[ -n "${node_version}" ]] || { echo ".devcontainer/devcontainer.json must define build.args.NODE_VERSION." >&2; exit 1; }
+          [[ -n "${openspec_version}" ]] || { echo "config/openspec-version.txt must not be empty." >&2; exit 1; }
+          echo "NODE_VERSION=${node_version}" >> "$GITHUB_ENV"
+          echo "OPENSPEC_VERSION=${openspec_version}" >> "$GITHUB_ENV"
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
-
-      - name: Resolve OpenSpec version
-        run: |
-          openspec_version="$(tr -d '[:space:]' < config/openspec-version.txt)"
-          [[ -n "${openspec_version}" ]] || { echo "config/openspec-version.txt must not be empty." >&2; exit 1; }
-          echo "OPENSPEC_VERSION=${openspec_version}" >> "$GITHUB_ENV"
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Install OpenSpec CLI
         run: npm install --global @fission-ai/openspec@${OPENSPEC_VERSION}
