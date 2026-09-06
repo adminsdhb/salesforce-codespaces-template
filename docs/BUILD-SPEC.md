@@ -7,6 +7,7 @@ Provide a reusable, generic GitHub Codespaces baseline for Salesforce DX project
 ## Included
 
 - A non-root Node.js 22 development container with Salesforce CLI.
+- OpenSpec scaffolding and GitHub Copilot prompts for spec-driven development.
 - Salesforce-aware VS Code extensions and shell defaults.
 - Standard Salesforce DX project structure.
 - Setup and configuration validation scripts.
@@ -23,3 +24,4 @@ Provide a reusable, generic GitHub Codespaces baseline for Salesforce DX project
 - Keep authentication interactive or inject credentials through Codespaces secrets.
 - Keep `.sf/`, `.sfdx/`, environment files, and key material out of version control.
 - Review deployment commands and target orgs before execution.
+- Plan non-trivial template changes in `openspec/` before implementation.

@@ -1,34 +1,26 @@
 schema: spec-driven
 githubCopilot:
   cloudAgent: false
-
-# Project context (optional)
-# This is shown to AI when creating artifacts.
-# Add your tech stack, conventions, style guides, domain knowledge, etc.
-# Example:
-#   context: |
-#     Tech stack: TypeScript, React, Node.js
-#     We use conventional commits
-#     Domain: e-commerce platform
-
-# Per-artifact rules (optional)
-# Add custom rules for specific artifacts.
-# Example:
-#   rules:
-#     proposal:
-#       - Keep proposals under 500 words
-#       - Always include a "Non-goals" section
-#     tasks:
-#       - Break tasks into chunks of max 2 hours
-
-# Per-operation guidance (optional)
-# Add advisory guidance for how apply and archive work should be conducted.
-# This is separate from artifact rules above.
-# Example:
-#   operations:
-#     apply:
-#       guidance:
-#         - Keep test summaries concise
-#     archive:
-#       guidance:
-#         - Summarize the archive outcome before finishing
+context: |
+  Repository type: reusable GitHub Codespaces template for Salesforce DX projects.
+  Tooling: Node.js 22 dev container, Salesforce CLI, jq, Bash helper scripts, and OpenSpec.
+  Safety requirements: never add org credentials, auth URLs, certificates, usernames, passwords, tokens, or other secrets to the repository.
+  Repository changes should stay template-agnostic and update documentation plus validation when template behavior changes.
+  Non-trivial changes should begin with OpenSpec planning and keep the resulting openspec artifacts in version control.
+rules:
+  proposal:
+    - Keep the change scoped to reusable template behavior.
+    - Call out any validation, documentation, or developer workflow impact.
+  specs:
+    - Use SHALL statements with concrete contributor-facing scenarios.
+    - Capture template behavior, not project-specific org behavior.
+  tasks:
+    - Include documentation and validation updates when repository behavior changes.
+operations:
+  apply:
+    guidance:
+      - Keep changes small and repository-scoped.
+      - Update scripts or workflow validation when new required repository files are introduced.
+  archive:
+    guidance:
+      - Confirm the relevant main specs reflect the shipped repository behavior before archiving.

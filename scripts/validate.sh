@@ -5,7 +5,22 @@ set -euo pipefail
 required_files=(
   '.devcontainer/devcontainer.json'
   '.devcontainer/Dockerfile'
+  '.github/copilot-instructions.md'
+  '.github/prompts/opsx-apply.prompt.md'
+  '.github/prompts/opsx-archive.prompt.md'
+  '.github/prompts/opsx-explore.prompt.md'
+  '.github/prompts/opsx-propose.prompt.md'
+  '.github/prompts/opsx-sync.prompt.md'
+  '.github/prompts/opsx-update.prompt.md'
+  '.github/skills/openspec-apply-change/SKILL.md'
+  '.github/skills/openspec-archive-change/SKILL.md'
+  '.github/skills/openspec-explore/SKILL.md'
+  '.github/skills/openspec-propose/SKILL.md'
+  '.github/skills/openspec-sync-specs/SKILL.md'
+  '.github/skills/openspec-update-change/SKILL.md'
   'config/project-scratch-def.json'
+  'openspec/config.yaml'
+  'openspec/specs/repository-governance/spec.md'
   'sfdx-project.json'
   'README.md'
 )
@@ -28,4 +43,10 @@ if command -v sf >/dev/null 2>&1; then
   sf --version
 else
   echo "Salesforce CLI not found; configuration-only validation completed."
+fi
+
+if command -v openspec >/dev/null 2>&1; then
+  openspec validate --all --strict --no-interactive
+else
+  echo "OpenSpec not found; OpenSpec validation skipped."
 fi

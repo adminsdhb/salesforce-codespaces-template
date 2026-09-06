@@ -2,7 +2,7 @@
 
 Reusable GitHub Codespaces starter for Salesforce CLI and Salesforce DX development.
 
-The template provides a non-root development container, Salesforce CLI, useful VS Code extensions, a baseline `force-app` project structure, setup helpers, and configuration-only CI validation. It intentionally does not authenticate to an org or include org-specific metadata.
+The template provides a non-root development container, Salesforce CLI, OpenSpec for spec-driven development, useful VS Code extensions, a baseline `force-app` project structure, setup helpers, and configuration-only CI validation. It intentionally does not authenticate to an org or include org-specific metadata.
 
 ## Prerequisites
 
@@ -35,6 +35,7 @@ For CI or non-interactive workflows, store credentials in GitHub Actions or Code
 ```bash
 # Check the installed CLI
 sf --version
+openspec --version
 
 # Create a scratch org from the included definition
 sf org create scratch --definition-file config/project-scratch-def.json --alias scratch --set-default --duration-days 7
@@ -49,15 +50,35 @@ sf apex run test --target-org scratch --wait 10 --result-format human
 sf org open
 ```
 
-The `scripts/setup.sh` file prints a short onboarding sequence, and `scripts/validate.sh` checks that the template's required files and JSON configuration remain valid.
+The `scripts/setup.sh` file prints a short onboarding sequence, and `scripts/validate.sh` checks that the template's required files, OpenSpec configuration, and JSON configuration remain valid.
+
+## Spec-driven development
+
+This template now ships with OpenSpec already initialized in the repository so every meaningful change can start from a spec before code is edited.
+
+Use the generated GitHub Copilot prompts from this repository:
+
+1. `/opsx-explore` to inspect the codebase before changing it.
+2. `/opsx-propose "your change"` to create proposal, design, spec, and task artifacts under `openspec/changes/`.
+3. `/opsx-apply` only after the plan is reviewed.
+4. `/opsx-sync` and `/opsx-archive` to merge completed deltas back into `openspec/specs/`.
+
+Repository expectations:
+
+- Keep `openspec/` artifacts in version control with the code they describe.
+- Start non-trivial repository changes with OpenSpec planning.
+- Update the relevant specs whenever template behavior changes.
 
 ## Project layout
 
 ```text
 .
 ├── .devcontainer/       # Codespaces image and post-create setup
+├── .github/prompts/     # GitHub Copilot OpenSpec slash commands
+├── .github/skills/      # GitHub Copilot OpenSpec skills
 ├── .github/workflows/    # Configuration validation
 ├── config/              # Scratch-org definitions and project config
+├── openspec/            # Specs, active change plans, and archive
 ├── force-app/            # Salesforce source metadata
 ├── scripts/              # Setup and validation helpers
 ├── docs/                 # Template design notes
@@ -70,7 +91,9 @@ Keep non-sensitive local defaults in an uncommitted `.env` file only when a tool
 
 ## Updating the template
 
+- Start with `/opsx-explore` or `/opsx-propose` for any non-trivial template change.
 - Pin `SF_CLI_VERSION` in `.devcontainer/devcontainer.json` when reproducible builds matter.
+- Keep the OpenSpec CLI version aligned between `.devcontainer/Dockerfile` and `.github/workflows/validate.yml`.
 - Update `sourceApiVersion` in `sfdx-project.json` to match the Salesforce API version used by a project.
 - Keep the extension list small and project-agnostic.
 - Run `bash scripts/validate.sh` before opening a pull request.
