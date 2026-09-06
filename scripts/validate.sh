@@ -50,7 +50,7 @@ else
 fi
 
 if command -v openspec >/dev/null 2>&1; then
-  installed_openspec_version="$(openspec --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' | head -n 1)"
+  installed_openspec_version="$(npm list --global @fission-ai/openspec --json | jq -r '.dependencies["@fission-ai/openspec"].version // empty')"
   [[ -n "$installed_openspec_version" ]] || { echo 'Could not determine installed OpenSpec version' >&2; exit 1; }
   [[ "$installed_openspec_version" == "$pinned_openspec_version" ]] || {
     echo "OpenSpec version mismatch: expected $pinned_openspec_version but found $installed_openspec_version" >&2
